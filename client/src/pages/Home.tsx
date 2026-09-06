@@ -13,7 +13,7 @@ const experiences = [
     title: "Mãos & matéria",
     text: "Cerâmica fria, pintura, bordado, colagem e criação de jóias.",
     note: "criar sem pressa.",
-    image: "/assets/images/photo-01.jpeg",
+    image: "./assets/images/photo-01.jpeg",
   },
   {
     number: "02",
@@ -21,7 +21,7 @@ const experiences = [
     title: "Corpo & silêncio",
     text: "Yoga, meditação, silent concert e práticas que ativam os sentidos.",
     note: "o corpo sabe.",
-    image: "/assets/images/photo-02.jpeg",
+    image: "./assets/images/photo-02.jpeg",
   },
   {
     number: "03",
@@ -29,7 +29,7 @@ const experiences = [
     title: "Sabores & aromas",
     text: "Chás, degustações, perfumes florais e velas aromáticas.",
     note: "sentir com tudo.",
-    image: "/assets/images/photo-03.jpeg",
+    image: "./assets/images/photo-03.jpeg",
   },
   {
     number: "04",
@@ -37,17 +37,23 @@ const experiences = [
     title: "Cultura & brincadeira",
     text: "Clubes de livros e discos, jogos, conversas e brincadeiras.",
     note: "boa companhia conta.",
-    image: "/assets/images/photo-04.jpeg",
+    image: "./assets/images/photo-04.jpeg",
   },
 ];
 
 const galleryImages = [
-  { src: "/assets/images/photo-05.jpeg", alt: "Momento offline 1", caption: "Processo criativo" },
-  { src: "/assets/images/photo-06.jpeg", alt: "Momento offline 2", caption: "Cuidado e conexão" },
-  { src: "/assets/images/photo-07.jpeg", alt: "Momento offline 3", caption: "Presença e afeto" },
-  { src: "/assets/images/photo-08.jpeg", alt: "Momento offline 4", caption: "Detalhes artesanais" },
-  { src: "/assets/images/photo-09.jpeg", alt: "Momento offline 5", caption: "Sabores compartilhados" },
-  { src: "/assets/images/photo-10.jpeg", alt: "Momento offline 6", caption: "Encontros com calma" },
+  { src: "./assets/images/photo-05.jpeg", alt: "Momento offline 1", caption: "Processo criativo" },
+  { src: "./assets/images/photo-06.jpeg", alt: "Momento offline 2", caption: "Cuidado e conexão" },
+  { src: "./assets/images/photo-07.jpeg", alt: "Momento offline 3", caption: "Presença e afeto" },
+  { src: "./assets/images/photo-08.jpeg", alt: "Momento offline 4", caption: "Detalhes artesanais" },
+  { src: "./assets/images/photo-09.jpeg", alt: "Momento offline 5", caption: "Sabores compartilhados" },
+  { src: "./assets/images/photo-10.jpeg", alt: "Momento offline 6", caption: "Encontros com calma" },
+  { src: "./assets/images/photo-14.jpeg", alt: "Momento offline 7", caption: "Espaço acolhedor" },
+  { src: "./assets/images/photo-15.jpeg", alt: "Momento offline 8", caption: "Mãos na massa" },
+  { src: "./assets/images/photo-16.jpeg", alt: "Momento offline 9", caption: "Tempo de pausa" },
+  { src: "./assets/images/photo-17.jpeg", alt: "Momento offline 10", caption: "Ambiente e afeto" },
+  { src: "./assets/images/photo-18.jpeg", alt: "Momento offline 11", caption: "Comunidade" },
+  { src: "./assets/images/photo-19.jpeg", alt: "Momento offline 12", caption: "Conexões reais" },
 ];
 
 const steps = [
@@ -88,13 +94,19 @@ export default function Home() {
       </header>
 
       <main id="top">
-        <section className="hero section-pad">
+        <section className="hero section-pad hero-with-image">
           <div className="hero-side-label">presença é o nosso ponto de encontro</div>
-          <div className="hero-copy reveal">
-            <p className="eyebrow">PROJETO OFF.LINE <span>✦</span> encontros presenciais</p>
-            <h1>A vida real<br />é o nosso <em>moodboard.</em></h1>
-            <p className="hero-lede">Um convite para desacelerar, criar com as mãos e estar inteiro em boa companhia.</p>
-            <button className="text-link" onClick={() => scrollTo("ideia")}>entra nessa <ArrowDown size={15} /></button>
+          <div className="hero-layout">
+            <div className="hero-copy reveal">
+              <p className="eyebrow">PROJETO OFF.LINE <span>✦</span> encontros presenciais</p>
+              <h1>A vida real<br />é o nosso <em>moodboard.</em></h1>
+              <p className="hero-lede">Um convite para desacelerar, criar com as mãos e estar inteiro em boa companhia.</p>
+              <button className="text-link" onClick={() => scrollTo("ideia")}>entra nessa <ArrowDown size={15} /></button>
+            </div>
+            <div className="hero-visual-card">
+              <img src="./assets/images/photo-03.jpeg" alt="Projeto Offline Encontro" className="hero-main-img" />
+              <div className="hero-card-badge">✦ momentos reais</div>
+            </div>
           </div>
           <div className="hero-bottom-note"><span>cuidado, criação & presença</span><span>SC / BR — 2026</span></div>
         </section>
@@ -109,7 +121,7 @@ export default function Home() {
             <p className="body-copy">E se a gente desse um pause de verdade? O Projeto Off.Line é uma curadoria de experiências presenciais de cuidado, bem-estar e criação.</p>
             <p className="body-copy">Encontros pensados para reconectar com a natureza, com o corpo — e conhecer pessoas no caminho.</p>
             <div className="intro-image-frame">
-              <img src="/assets/images/photo-11.jpeg" alt="Vivência offline e desaceleração" className="intro-image" />
+              <img src="./assets/images/photo-11.jpeg" alt="Vivência offline e desaceleração" className="intro-image" />
             </div>
             <p className="pull-quote">“sair da tela<br />para entrar<br />na experiência.”</p>
           </div>
@@ -152,7 +164,7 @@ export default function Home() {
           <div className="section-content wide-content">
             <p className="eyebrow accent">MEMÓRIAS DO PRESENTE</p>
             <h2>Como é viver<br /><em>o Projeto Off.Line.</em></h2>
-            <p className="process-intro">Pequenos recortes de momentos sem telas, mãos em movimento e conexões verdadeiras.</p>
+            <p className="process-intro">Pequenos recortes de momentos sem telas, mãos em movimento e conexões verdadeiras da nossa comunidade.</p>
             <div className="gallery-grid">
               {galleryImages.map((img, idx) => (
                 <div className="gallery-item" key={idx}>
@@ -184,8 +196,11 @@ export default function Home() {
             <h2>O cenário<br />também <em>participa.</em></h2>
             <p className="body-copy">Florestas, rooftops, praias, casas acolhedoras e mesas preparadas com intenção. Aqui, o ambiente não é pano de fundo: ele também convida a desacelerar.</p>
             <div className="places-image-duo">
-              <img src="/assets/images/photo-12.jpeg" alt="Cenário do encontro" className="place-img" />
-              <img src="/assets/images/photo-13.jpeg" alt="Espaço acolhedor" className="place-img" />
+              <img src="./assets/images/photo-12.jpeg" alt="Cenário do encontro" className="place-img" />
+              <img src="./assets/images/photo-13.jpeg" alt="Espaço acolhedor" className="place-img" />
+            </div>
+            <div className="places-wide-image">
+              <img src="./assets/images/photo-20.jpeg" alt="Encontro ao entardecer" className="place-wide-img" />
             </div>
             <p className="pull-quote small">bonito o suficiente<br />para lembrar.</p>
           </div>

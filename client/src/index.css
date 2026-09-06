@@ -31,7 +31,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 
 .section-pad { padding: clamp(110px, 14vw, 190px) clamp(22px, 12vw, 190px); }
 .hero { position: relative; display: flex; min-height: 100vh; flex-direction: column; justify-content: center; padding-top: 160px; padding-bottom: 90px; background: radial-gradient(circle at 72% 44%, rgba(217,4,91,.08), transparent 32%), #FBE0EA; }
-.hero-copy { width: min(740px, 100%); margin-left: clamp(0px, 7vw, 100px); }
+.hero-layout { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: clamp(30px, 5vw, 60px); margin-left: clamp(0px, 7vw, 100px); max-width: 1200px; width: 100%; }
+.hero-copy { width: 100%; }
+.hero-visual-card { position: relative; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,0.12); border: 2px solid rgba(255,255,255,0.6); max-height: 480px; }
+.hero-main-img { width: 100%; height: 100%; max-height: 480px; object-fit: cover; display: block; transition: transform .5s ease; }
+.hero-visual-card:hover .hero-main-img { transform: scale(1.03); }
+.hero-card-badge { position: absolute; bottom: 16px; left: 16px; background: rgba(23,17,22,0.75); backdrop-filter: blur(8px); color: #FBE0EA; font-family: Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; }
+.places-wide-image { margin-top: 24px; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+.place-wide-img { width: 100%; height: 280px; object-fit: cover; display: block; }
 .eyebrow { margin: 0 0 26px; color: rgba(23,17,22,.54); font-family: Arial, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
 .eyebrow span { color: #D9045B; }
 .eyebrow.accent { color: #D9045B; }
@@ -123,6 +130,7 @@ h1 em, h2 em { color: #D9045B; font-style: italic; }
   .header-nav.is-open { display: flex; }
   .header-nav button { text-align: left; }
   .hero { min-height: 88vh; padding-top: 150px; }
+  .hero-layout { grid-template-columns: 1fr; margin-left: 0; gap: 40px; }
   .hero-side-label { display: none; }
   .hero-bottom-note { flex-direction: column; gap: 8px; margin-left: 0; }
   .split-section { grid-template-columns: 1fr; gap: 45px; }
