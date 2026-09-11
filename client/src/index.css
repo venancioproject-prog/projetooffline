@@ -451,18 +451,18 @@ h1 em::after {
 }
 .manifesto-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
   margin-top: 40px;
 }
 .manifesto-card {
   background: #FFFDFB;
   border: 1px solid rgba(217, 4, 91, 0.2);
   border-radius: 8px;
-  padding: 24px 18px;
+  padding: 20px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
@@ -473,13 +473,14 @@ h1 em::after {
 }
 .manifesto-num {
   font-family: "Impact", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   color: #D9045B;
 }
 .manifesto-card strong {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.35;
+  color: #1D161C;
 }
 
 /* ==========================================================================
