@@ -197,15 +197,15 @@ export default function Home() {
     aceiteComunidade: true,
   });
   const [captchaValue, setCaptchaValue] = useState("");
-  const [captchaNum1, setCaptchaNum1] = useState(3);
-  const [captchaNum2, setCaptchaNum2] = useState(4);
+  const [captchaNum1, setCaptchaNum1] = useState(() => Math.floor(Math.random() * 8) + 2);
+  const [captchaNum2, setCaptchaNum2] = useState(() => Math.floor(Math.random() * 8) + 1);
   const [errors, setErrors] = useState<{ email?: string; telefone?: string; captcha?: string; aceite?: string }>({});
   const [openCategory, setOpenCategory] = useState<number | null>(0);
 
   // Gera novos números para o captcha
   const refreshCaptcha = () => {
-    setCaptchaNum1(Math.floor(Math.random() * 8) + 2);
-    setCaptchaNum2(Math.floor(Math.random() * 8) + 1);
+    setCaptchaNum1(Math.floor(Math.random() * 9) + 2);
+    setCaptchaNum2(Math.floor(Math.random() * 9) + 1);
     setCaptchaValue("");
   };
 
@@ -849,18 +849,9 @@ export default function Home() {
                       )}
                     </div>
 
-                    {/* CHECKBOX DE CONSENTIMENTO LGPD */}
+                    {/* CHECKBOX DE CONSENTIMENTO LGPD (Caixa à direita) */}
                     <div className="space-y-1">
-                      <label className="flex items-start gap-2.5 cursor-pointer text-xs text-pink-100 font-normal leading-snug">
-                        <input
-                          type="checkbox"
-                          checked={formData.aceiteComunidade}
-                          onChange={(e) => {
-                            setFormData({ ...formData, aceiteComunidade: e.target.checked });
-                            if (errors.aceite) setErrors({ ...errors, aceite: undefined });
-                          }}
-                          className="mt-0.5 h-4 w-4 rounded border-pink-400 text-pink-600 focus:ring-pink-500 cursor-pointer"
-                        />
+                      <label className="optin-checkbox-label">
                         <span>
                           Concordo em receber convites, novidades e comunicações exclusivas da <strong>IT’S OFF.LINE</strong> e declaro que li a{" "}
                           <button
@@ -871,6 +862,14 @@ export default function Home() {
                             Política de Privacidade (LGPD)
                           </button>.
                         </span>
+                        <input
+                          type="checkbox"
+                          checked={formData.aceiteComunidade}
+                          onChange={(e) => {
+                            setFormData({ ...formData, aceiteComunidade: e.target.checked });
+                            if (errors.aceite) setErrors({ ...errors, aceite: undefined });
+                          }}
+                        />
                       </label>
                       {errors.aceite && (
                         <span className="text-xs text-red-600 font-bold block">

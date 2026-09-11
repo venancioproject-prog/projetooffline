@@ -704,6 +704,36 @@ h1 em::after {
   border-color: #FF6699;
   background: rgba(255, 255, 255, 0.1);
 }
+.interest-form label.optin-checkbox-label {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: #F8DEE7 !important;
+  line-height: 1.4 !important;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 182, 193, 0.3);
+}
+.interest-form label.optin-checkbox-label input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  cursor: pointer;
+  accent-color: #D9045B;
+  margin: 0 !important;
+  order: 2;
+}
+.interest-form label.optin-checkbox-label span {
+  order: 1;
+}
 .form-submit-scrap {
   align-self: flex-start;
   display: inline-flex;
