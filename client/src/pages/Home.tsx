@@ -246,9 +246,16 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // Cria um formulário invisível apontando para um iframe oculto.
-      // Esta é a técnica mais confiável do mundo para Google Apps Script pois ignora 100% bloqueios de CORS e fetch restrictions do navegador.
-      const iframeName = "hidden_gscript_iframe";
+      const params = new URLSearchParams();
+      params.append("nome", formData.nome.trim());
+      params.append("email", formData.email.trim());
+      params.append("telefone", formData.telefone.trim());
+      params.append("interesse", formData.interesse.trim());
+
+      const targetUrl = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+
+      // Cria iframe oculto para envio
+      const iframeName = "gscript_submit_frame";
       let iframe = document.getElementById(iframeName) as HTMLIFrameElement;
       if (!iframe) {
         iframe = document.createElement("iframe");
@@ -260,7 +267,7 @@ export default function Home() {
 
       const form = document.createElement("form");
       form.method = "POST";
-      form.action = GOOGLE_SCRIPT_URL;
+      form.action = targetUrl;
       form.target = iframeName;
       form.style.display = "none";
 
@@ -282,14 +289,12 @@ export default function Home() {
       document.body.appendChild(form);
       form.submit();
 
-      // Aguarda 1 segundo e limpa o elemento
+      // Dispara também o beacon fetch
+      fetch(targetUrl, { mode: "no-cors" }).catch(() => {});
+
       setTimeout(() => {
         if (form.parentNode) form.parentNode.removeChild(form);
       }, 1500);
-
-      // Dispara também o fallback fetch em segundo plano
-      const params = new URLSearchParams(fields);
-      fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, { mode: "no-cors" }).catch(() => {});
 
       setSent(true);
       setFormData({ nome: "", email: "", telefone: "", interesse: "" });
