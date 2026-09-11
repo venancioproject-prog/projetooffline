@@ -527,14 +527,14 @@ export default function Home() {
               </span>
             </div>
 
-            {/* ACCORDION / CARDS DAS 43 LINGUAGENS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* ACCORDION / CARDS DAS 43 LINGUAGENS (com items-start para não esticar o vizinho) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               {categories.map((cat, idx) => {
                 const isOpen = openCategory === idx;
                 return (
                   <div
                     key={cat.num}
-                    className="border border-pink-900/20 rounded-xl bg-white/90 p-5 shadow-sm hover:shadow-md transition-all relative overflow-hidden"
+                    className="border border-pink-900/20 rounded-xl bg-white/90 p-5 shadow-sm hover:shadow-md transition-all relative overflow-hidden self-start"
                   >
                     <div className="washi-tape" style={{ top: "-8px", right: "15px", width: "60px", height: "16px", transform: cat.tapeRotate }} />
                     <div className="flex items-start justify-between gap-3 cursor-pointer" onClick={() => setOpenCategory(isOpen ? null : idx)}>
