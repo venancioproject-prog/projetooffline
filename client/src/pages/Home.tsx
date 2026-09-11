@@ -693,18 +693,26 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="places-polaroid-stack">
-                <div className="relative">
+              <div className="places-polaroid-stack flex flex-col items-center">
+                <div className="relative w-full max-w-[340px]">
                   <div className="washi-tape tape-top-left" />
                   <div className="polaroid-frame" style={{ transform: "rotate(-2.5deg)" }}>
-                    <img src="./assets/images/photo-06.jpeg" alt="Natureza e céu aberto" style={{ width: "100%", height: "240px", objectFit: "cover" }} />
+                    <img
+                      src="./assets/images/photo-06.jpeg"
+                      alt="Natureza e céu aberto"
+                      style={{ width: "100%", height: "290px", objectFit: "cover", objectPosition: "center 85%", borderRadius: "2px" }}
+                    />
                     <div className="polaroid-caption">natureza e céu aberto ✦</div>
                   </div>
                 </div>
-                <div className="relative" style={{ marginTop: "-20px" }}>
+                <div className="relative w-full max-w-[340px]" style={{ marginTop: "-25px" }}>
                   <div className="washi-tape tape-top-right" />
                   <div className="polaroid-frame" style={{ transform: "rotate(3deg)" }}>
-                    <img src="./assets/images/photo-11.jpeg" alt="Casas, quintais e ateliês" style={{ width: "100%", height: "220px", objectFit: "cover" }} />
+                    <img
+                      src="./assets/images/photo-11.jpeg"
+                      alt="Casas, quintais e ateliês"
+                      style={{ width: "100%", height: "270px", objectFit: "cover", borderRadius: "2px" }}
+                    />
                     <div className="polaroid-caption">mesas preparadas com afeto ✦</div>
                   </div>
                 </div>
