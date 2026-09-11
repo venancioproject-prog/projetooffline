@@ -404,7 +404,7 @@ export default function Home() {
                     ✦ põe a mão na terra e vê o que acontece
                   </div>
                 </div>
-                <div className="absolute -bottom-4 -left-3 sticker" style={{ transform: "rotate(-6deg)", zIndex: 30 }}>
+                <div className="absolute -top-4 -right-4 sticker" style={{ transform: "rotate(6deg)", zIndex: 30 }}>
                   <Camera size={14} /> trouxemos um filme para revelar ;)
                 </div>
               </div>
