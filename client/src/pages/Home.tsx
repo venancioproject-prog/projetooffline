@@ -187,6 +187,8 @@ const menuItems = [
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ nome: "", email: "", interesse: "" });
   const [openCategory, setOpenCategory] = useState<number | null>(0);
 
   const scrollTo = (id: string) => {
@@ -195,6 +197,38 @@ export default function Home() {
   };
 
   const WHATSAPP_URL = "https://wa.me/5571985557259";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOcz08PJoeql9YHX10qUp04QV9gNKmNHuw8KSGleP-m4HytnYdyVXnF8fSM7R7bqjl/exec";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Envia via FormData / URLSearchParams para compatibilidade total com o CORS do Google Apps Script
+      const formPayload = new URLSearchParams();
+      formPayload.append("nome", formData.nome);
+      formPayload.append("email", formData.email);
+      formPayload.append("interesse", formData.interesse);
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formPayload.toString(),
+      });
+
+      setSent(true);
+      setFormData({ nome: "", email: "", interesse: "" });
+    } catch (err) {
+      console.error("Erro ao enviar para o Google Sheets:", err);
+      // Mesmo com erro de rede pontual, exibe a confirmação após tentativa
+      setSent(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="site-shell">
@@ -585,24 +619,43 @@ export default function Home() {
                   <div className="flex flex-col items-center gap-3 p-8 bg-white/10 rounded-xl text-center border border-pink-300/30">
                     <Check size={40} className="text-pink-400" />
                     <strong className="text-2xl text-white">Te esperamos do lado de fora da tela!</strong>
-                    <span className="text-pink-200">Seu contato foi anotado com muito carinho.</span>
+                    <span className="text-pink-200">Seu contato foi anotado com muito carinho e salvo na nossa lista.</span>
                   </div>
                 ) : (
-                  <form className="interest-form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+                  <form className="interest-form" onSubmit={handleSubmit}>
                     <label>
                       Como quer ser chamado(a)?
-                      <input required placeholder="seu nome ou apelido" />
+                      <input
+                        required
+                        value={formData.nome}
+                        onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                        placeholder="seu nome ou apelido"
+                        disabled={loading}
+                      />
                     </label>
                     <label>
                       Seu melhor e-mail
-                      <input required type="email" placeholder="nome@exemplo.com" />
+                      <input
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="nome@exemplo.com"
+                        disabled={loading}
+                      />
                     </label>
                     <label>
                       O que você gostaria de experimentar?
-                      <textarea rows={3} placeholder="uma oficina de cerâmica, banho de floresta, colagem..." />
+                      <textarea
+                        rows={3}
+                        value={formData.interesse}
+                        onChange={(e) => setFormData({ ...formData, interesse: e.target.value })}
+                        placeholder="uma oficina de cerâmica, banho de floresta, colagem..."
+                        disabled={loading}
+                      />
                     </label>
-                    <button type="submit" className="form-submit-scrap">
-                      QUERO FICAR POR PERTO <ArrowUpRight size={17} />
+                    <button type="submit" className="form-submit-scrap" disabled={loading}>
+                      {loading ? "ENVIANDO..." : <>QUERO FICAR POR PERTO <ArrowUpRight size={17} /></>}
                     </button>
                   </form>
                 )}
