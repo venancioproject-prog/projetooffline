@@ -198,7 +198,7 @@ export default function Home() {
   };
 
   const WHATSAPP_URL = "https://wa.me/5571985557259";
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOcz08PJoeql9YHX10qUp04QV9gNKmNHuw8KSGleP-m4HytnYdyVXnF8fSM7R7bqjl/exec";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHOAozLP4-lzNoSouV8bT1IqL8WiPNgFeRihFh6UNLWCX8uorqIwBr1pumwJWLyKAj/exec";
 
   // Formatação automática do telefone brasileiro (ex: (11) 98765-4321)
   const formatPhone = (val: string) => {
