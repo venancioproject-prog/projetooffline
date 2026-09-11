@@ -138,18 +138,23 @@ const manifestoItems = [
 ];
 
 const galleryMural = [
-  { src: "./assets/images/photo-05.jpeg", caption: "Processo criativo ✦", rotate: "-2.5deg" },
-  { src: "./assets/images/photo-06.jpeg", caption: "Cuidado e conexão ✦", rotate: "2.8deg" },
-  { src: "./assets/images/photo-07.jpeg", caption: "Presença e afeto ✦", rotate: "-3.2deg" },
-  { src: "./assets/images/photo-08.jpeg", caption: "Detalhes manuais ✦", rotate: "1.8deg" },
-  { src: "./assets/images/photo-09.jpeg", caption: "Sabores à mesa ✦", rotate: "-2deg" },
-  { src: "./assets/images/photo-10.jpeg", caption: "Encontros com calma ✦", rotate: "3deg" },
-  { src: "./assets/images/photo-14.jpeg", caption: "Luz natural & pausa ✦", rotate: "-2.8deg" },
-  { src: "./assets/images/photo-16.jpeg", caption: "Tempo presente ✦", rotate: "2.2deg" },
-  { src: "./assets/images/photo-17.jpeg", caption: "Ambiente acolhedor ✦", rotate: "-1.5deg" },
-  { src: "./assets/images/photo-18.jpeg", caption: "Comunidade viva ✦", rotate: "2.5deg" },
+  // Linha 1 (Superior)
+  { src: "./assets/images/photo-05.jpeg", caption: "Tempo presente ✦", rotate: "-2.5deg" },
+  { src: "./assets/images/photo-06.jpeg", caption: "Encontros com calma ✦", rotate: "2.8deg" },
+  { src: "./assets/images/photo-07.jpeg", caption: "Processo criativo ✦", rotate: "-3.2deg" },
+  { src: "./assets/images/photo-08.jpeg", caption: "Luz natural & pausa ✦", rotate: "1.8deg" },
+  
+  // Linha 2 (Meio)
+  { src: "./assets/images/photo-09.jpeg", caption: "Afetos compartilhados ✦", rotate: "-2deg" },
+  { src: "./assets/images/photo-10.jpeg", caption: "Cuidado e conexão ✦", rotate: "3deg" },
+  { src: "./assets/images/photo-14.jpeg", caption: "Sabores à mesa ✦", rotate: "-2.8deg" },
+  { src: "./assets/images/photo-16.jpeg", caption: "Presença e afeto ✦", rotate: "2.2deg" },
+  
+  // Linha 3 (Inferior)
+  { src: "./assets/images/photo-17.jpeg", caption: "Detalhes manuais ✦", rotate: "-1.5deg" },
+  { src: "./assets/images/photo-18.jpeg", caption: "Ambiente acolhedor ✦", rotate: "2.5deg" },
   { src: "./assets/images/photo-19.jpeg", caption: "Conversas reais ✦", rotate: "-2.2deg" },
-  { src: "./assets/images/photo-20.jpeg", caption: "Afetos compartilhados ✦", rotate: "1.9deg" },
+  { src: "./assets/images/photo-20.jpeg", caption: "Comunidade viva ✦", rotate: "1.9deg" },
 ];
 
 const locations = [
