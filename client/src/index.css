@@ -555,29 +555,48 @@ h1 em::after {
 }
 
 /* ==========================================================================
-   GALERIA SCRAPBOOK (Mural de Fotos com Washi Tape & Rotações)
+   GALERIA SCRAPBOOK (Mesa de Fotos Espalhadas com Animação Suave)
    ========================================================================== */
-.gallery-scrapbook-mural {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 26px;
-  margin-top: 40px;
+.gallery-scatter-table {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px 24px;
+  margin-top: 50px;
+  padding: 20px 10px;
+  position: relative;
 }
-.gallery-scrapbook-mural .polaroid-frame:nth-child(even) {
-  transform: rotate(2.5deg);
+
+.scatter-polaroid {
+  width: calc(25% - 24px);
+  min-width: 220px;
+  max-width: 260px;
+  animation: floatSoft 6s ease-in-out infinite alternate;
+  will-change: transform;
 }
-.gallery-scrapbook-mural .polaroid-frame:nth-child(odd) {
-  transform: rotate(-2deg);
+
+@keyframes floatSoft {
+  0% {
+    transform: translateY(0px) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(calc(var(--rot, 0deg) + 1.2deg));
+  }
+  100% {
+    transform: translateY(4px) rotate(calc(var(--rot, 0deg) - 1.2deg));
+  }
 }
-.gallery-scrapbook-mural .polaroid-frame:nth-child(3n) {
-  transform: rotate(3deg);
+
+.scatter-polaroid:hover {
+  animation-play-state: paused;
+  transform: translateY(-12px) scale(1.04) rotate(0deg) !important;
+  z-index: 30;
 }
-.gallery-scrapbook-mural .polaroid-frame:nth-child(4n) {
-  transform: rotate(-3.5deg);
-}
-.gallery-scrapbook-mural img {
+
+.scatter-polaroid img {
   width: 100%;
-  height: 200px;
+  height: 205px;
   object-fit: cover;
   border-radius: 2px;
 }

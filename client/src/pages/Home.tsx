@@ -138,23 +138,17 @@ const manifestoItems = [
 ];
 
 const galleryMural = [
-  // Linha 1 (Superior)
-  { src: "./assets/images/photo-05.jpeg", caption: "Tempo presente ✦", rotate: "-2.5deg" },
-  { src: "./assets/images/photo-06.jpeg", caption: "Encontros com calma ✦", rotate: "2.8deg" },
-  { src: "./assets/images/photo-07.jpeg", caption: "Processo criativo ✦", rotate: "-3.2deg" },
-  { src: "./assets/images/photo-08.jpeg", caption: "Luz natural & pausa ✦", rotate: "1.8deg" },
-  
-  // Linha 2 (Meio)
-  { src: "./assets/images/photo-09.jpeg", caption: "Afetos compartilhados ✦", rotate: "-2deg" },
-  { src: "./assets/images/photo-10.jpeg", caption: "Cuidado e conexão ✦", rotate: "3deg" },
-  { src: "./assets/images/photo-14.jpeg", caption: "Sabores à mesa ✦", rotate: "-2.8deg" },
-  { src: "./assets/images/photo-16.jpeg", caption: "Presença e afeto ✦", rotate: "2.2deg" },
-  
-  // Linha 3 (Inferior)
-  { src: "./assets/images/photo-17.jpeg", caption: "Detalhes manuais ✦", rotate: "-1.5deg" },
-  { src: "./assets/images/photo-18.jpeg", caption: "Ambiente acolhedor ✦", rotate: "2.5deg" },
-  { src: "./assets/images/photo-19.jpeg", caption: "Conversas reais ✦", rotate: "-2.2deg" },
-  { src: "./assets/images/photo-20.jpeg", caption: "Comunidade viva ✦", rotate: "1.9deg" },
+  { src: "./assets/images/photo-06.jpeg", caption: "Encontros com calma ✦", rotate: "-3.5deg", floatDelay: "0s", offset: "translateY(12px)" },
+  { src: "./assets/images/photo-07.jpeg", caption: "Processo criativo ✦", rotate: "2.8deg", floatDelay: "1.2s", offset: "translateY(-14px)" },
+  { src: "./assets/images/photo-08.jpeg", caption: "Luz natural & pausa ✦", rotate: "-2.2deg", floatDelay: "2.4s", offset: "translateY(8px)" },
+  { src: "./assets/images/photo-09.jpeg", caption: "Afetos compartilhados ✦", rotate: "3.5deg", floatDelay: "0.8s", offset: "translateY(-8px)" },
+  { src: "./assets/images/photo-10.jpeg", caption: "Cuidado e conexão ✦", rotate: "-4deg", floatDelay: "1.8s", offset: "translateY(16px)" },
+  { src: "./assets/images/photo-14.jpeg", caption: "Sabores à mesa ✦", rotate: "2deg", floatDelay: "3s", offset: "translateY(-12px)" },
+  { src: "./assets/images/photo-16.jpeg", caption: "Presença e afeto ✦", rotate: "-3deg", floatDelay: "1.5s", offset: "translateY(10px)" },
+  { src: "./assets/images/photo-17.jpeg", caption: "Detalhes manuais ✦", rotate: "4.2deg", floatDelay: "2.2s", offset: "translateY(-15px)" },
+  { src: "./assets/images/photo-18.jpeg", caption: "Ambiente acolhedor ✦", rotate: "-2.5deg", floatDelay: "0.5s", offset: "translateY(14px)" },
+  { src: "./assets/images/photo-19.jpeg", caption: "Conversas reais ✦", rotate: "3deg", floatDelay: "2.7s", offset: "translateY(-6px)" },
+  { src: "./assets/images/photo-20.jpeg", caption: "Comunidade viva ✦", rotate: "-3.8deg", floatDelay: "1.9s", offset: "translateY(12px)" },
 ];
 
 const locations = [
@@ -616,9 +610,16 @@ export default function Home() {
               Pequenos registros de encontros, mãos em movimento, natureza, criação e gente viva.
             </p>
 
-            <div className="gallery-scrapbook-mural">
+            <div className="gallery-scatter-table">
               {galleryMural.map((img, idx) => (
-                <div className="polaroid-frame" key={idx} style={{ transform: `rotate(${img.rotate})` }}>
+                <div
+                  className="polaroid-frame scatter-polaroid"
+                  key={idx}
+                  style={{
+                    transform: `rotate(${img.rotate}) ${img.offset}`,
+                    animationDelay: img.floatDelay,
+                  }}
+                >
                   <div
                     className="washi-tape"
                     style={{
