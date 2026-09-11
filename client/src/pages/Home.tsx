@@ -204,26 +204,26 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // Envia via FormData / URLSearchParams para compatibilidade total com o CORS do Google Apps Script
-      const formPayload = new URLSearchParams();
-      formPayload.append("nome", formData.nome);
-      formPayload.append("email", formData.email);
-      formPayload.append("interesse", formData.interesse);
+      const dataToSend = {
+        nome: formData.nome,
+        email: formData.email,
+        interesse: formData.interesse,
+      };
 
+      // O Google Apps Script com doPost aceita perfeitamente payload enviado em text/plain com mode: no-cors
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "text/plain;charset=utf-8",
         },
-        body: formPayload.toString(),
+        body: JSON.stringify(dataToSend),
       });
 
       setSent(true);
       setFormData({ nome: "", email: "", interesse: "" });
     } catch (err) {
       console.error("Erro ao enviar para o Google Sheets:", err);
-      // Mesmo com erro de rede pontual, exibe a confirmação após tentativa
       setSent(true);
     } finally {
       setLoading(false);
@@ -261,9 +261,7 @@ export default function Home() {
                   <span className="cutout-badge pink">OFF.LINE ★ ENTRE VIVOS</span>
                 </div>
 
-                <blockquote className="hero-quote">
-                  “O cérebro eletrônico não ama”
-                </blockquote>
+                <h1>“O cérebro eletrônico<br /><em>não ama.”</em></h1>
 
                 <p className="hero-lede">
                   Clube de experiências presenciais de wellness, arte e cultura para quem quer voltar a sentir a vida acontecendo fora do celular.
