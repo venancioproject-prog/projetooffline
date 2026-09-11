@@ -193,9 +193,27 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ nome: "", email: "", telefone: "", interesse: "" });
-  const [errors, setErrors] = useState<{ email?: string; telefone?: string }>({});
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    cidade: "",
+    interesse: "",
+    aceiteComunidade: true,
+  });
+  const [captchaValue, setCaptchaValue] = useState("");
+  const [captchaNum1, setCaptchaNum1] = useState(3);
+  const [captchaNum2, setCaptchaNum2] = useState(4);
+  const [errors, setErrors] = useState<{ email?: string; telefone?: string; captcha?: string; aceite?: string }>({});
   const [openCategory, setOpenCategory] = useState<number | null>(0);
+
+  // Gera novos números para o captcha
+  const refreshCaptcha = () => {
+    setCaptchaNum1(Math.floor(Math.random() * 8) + 2);
+    setCaptchaNum2(Math.floor(Math.random() * 8) + 1);
+    setCaptchaValue("");
+  };
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -230,10 +248,10 @@ export default function Home() {
 
     // Validação estrita de e-mail
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    // Validação de telefone (deve conter pelo menos 10 dígitos: DDD + número)
+    // Validação de telefone (mínimo 10 dígitos)
     const phoneDigits = formData.telefone.replace(/\D/g, "");
 
-    const newErrors: { email?: string; telefone?: string } = {};
+    const newErrors: { email?: string; telefone?: string; captcha?: string; aceite?: string } = {};
 
     if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Por favor, digite um e-mail válido (ex: seu@email.com).";
@@ -241,6 +259,16 @@ export default function Home() {
 
     if (phoneDigits.length < 10) {
       newErrors.telefone = "Digite um telefone válido com DDD (mínimo 10 dígitos).";
+    }
+
+    // Validação de Captcha
+    if (parseInt(captchaValue, 10) !== captchaNum1 + captchaNum2) {
+      newErrors.captcha = "Resposta incorreta do desafio de segurança. Tente novamente.";
+    }
+
+    // Validação de Aceite
+    if (!formData.aceiteComunidade) {
+      newErrors.aceite = "É necessário aceitar os termos para receber nossas novidades e experiências.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -255,11 +283,13 @@ export default function Home() {
       params.append("nome", formData.nome.trim());
       params.append("email", formData.email.trim());
       params.append("telefone", formData.telefone.trim());
+      params.append("cidade", formData.cidade.trim());
       params.append("interesse", formData.interesse.trim());
+      params.append("aceiteLGPD", formData.aceiteComunidade ? "Sim" : "Não");
 
       const targetUrl = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
 
-      // Cria iframe oculto para envio
+      // Cria iframe oculto para envio nativo
       const iframeName = "gscript_submit_frame";
       let iframe = document.getElementById(iframeName) as HTMLIFrameElement;
       if (!iframe) {
@@ -280,7 +310,9 @@ export default function Home() {
         nome: formData.nome.trim(),
         email: formData.email.trim(),
         telefone: formData.telefone.trim(),
+        cidade: formData.cidade.trim(),
         interesse: formData.interesse.trim(),
+        aceiteLGPD: formData.aceiteComunidade ? "Sim" : "Não",
       };
 
       for (const key in fields) {
@@ -294,7 +326,7 @@ export default function Home() {
       document.body.appendChild(form);
       form.submit();
 
-      // Dispara também o beacon fetch
+      // Dispara beacon fetch
       fetch(targetUrl, { mode: "no-cors" }).catch(() => {});
 
       setTimeout(() => {
@@ -302,7 +334,7 @@ export default function Home() {
       }, 1500);
 
       setSent(true);
-      setFormData({ nome: "", email: "", telefone: "", interesse: "" });
+      setFormData({ nome: "", email: "", telefone: "", cidade: "", interesse: "", aceiteComunidade: true });
       setErrors({});
     } catch (err) {
       console.error("Erro ao enviar:", err);
@@ -754,15 +786,89 @@ export default function Home() {
                     </label>
 
                     <label>
+                      De qual cidade você é?
+                      <input
+                        required
+                        value={formData.cidade}
+                        onChange={(e) => setFormData({ ...formData, cidade: e.target.value })}
+                        placeholder="Ex: Rio de Janeiro, Salvador, São Paulo..."
+                        disabled={loading}
+                      />
+                    </label>
+
+                    <label>
                       O que você gostaria de experimentar?
                       <textarea
-                        rows={3}
+                        rows={2}
                         value={formData.interesse}
                         onChange={(e) => setFormData({ ...formData, interesse: e.target.value })}
                         placeholder="uma oficina de cerâmica, banho de floresta, colagem..."
                         disabled={loading}
                       />
                     </label>
+
+                    {/* CAPTCHA / DESAFIO DE SEGURANÇA */}
+                    <div className="bg-white/10 p-3 rounded-lg border border-pink-300/30">
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-xs font-bold text-pink-200 uppercase tracking-wider flex items-center gap-1">
+                          🔒 Desafio de Segurança: Quanto é {captchaNum1} + {captchaNum2}?
+                        </span>
+                        <button
+                          type="button"
+                          onClick={refreshCaptcha}
+                          className="text-xs text-pink-300 hover:text-white underline"
+                          title="Trocar números"
+                        >
+                          trocar
+                        </button>
+                      </div>
+                      <input
+                        type="number"
+                        value={captchaValue}
+                        onChange={(e) => {
+                          setCaptchaValue(e.target.value);
+                          if (errors.captcha) setErrors({ ...errors, captcha: undefined });
+                        }}
+                        placeholder="Digite o resultado da soma"
+                        required
+                        className={errors.captcha ? "border-red-500 bg-red-50/50" : ""}
+                      />
+                      {errors.captcha && (
+                        <span className="text-xs text-red-600 font-bold mt-1 block">
+                          ⚠️ {errors.captcha}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* CHECKBOX DE CONSENTIMENTO LGPD */}
+                    <div className="space-y-1">
+                      <label className="flex items-start gap-2.5 cursor-pointer text-xs text-pink-100 font-normal leading-snug">
+                        <input
+                          type="checkbox"
+                          checked={formData.aceiteComunidade}
+                          onChange={(e) => {
+                            setFormData({ ...formData, aceiteComunidade: e.target.checked });
+                            if (errors.aceite) setErrors({ ...errors, aceite: undefined });
+                          }}
+                          className="mt-0.5 h-4 w-4 rounded border-pink-400 text-pink-600 focus:ring-pink-500 cursor-pointer"
+                        />
+                        <span>
+                          Concordo em receber convites, novidades e comunicações exclusivas da <strong>IT’S OFF.LINE</strong> e declaro que li a{" "}
+                          <button
+                            type="button"
+                            onClick={() => setShowPrivacyModal(true)}
+                            className="underline text-pink-300 hover:text-white font-semibold"
+                          >
+                            Política de Privacidade (LGPD)
+                          </button>.
+                        </span>
+                      </label>
+                      {errors.aceite && (
+                        <span className="text-xs text-red-600 font-bold block">
+                          ⚠️ {errors.aceite}
+                        </span>
+                      )}
+                    </div>
 
                     <button type="submit" className="form-submit-scrap" disabled={loading}>
                       {loading ? "ENVIANDO..." : <>QUERO FICAR POR PERTO <ArrowUpRight size={17} /></>}
@@ -775,12 +881,75 @@ export default function Home() {
         </section>
       </main>
 
-      {/* FOOTER */}
+      {/* FOOTER COM LINK DE POLÍTICA DE PRIVACIDADE */}
       <footer className="site-footer max-w-wrap">
         <span>IT’S OFF.LINE ✦ ENTRE VIVOS</span>
-        <span>Wellness, Saúde, Beleza & Fortuna Boa</span>
+        <button
+          onClick={() => setShowPrivacyModal(true)}
+          className="text-xs text-pink-800 hover:text-pink-950 underline cursor-pointer"
+        >
+          Política de Privacidade & LGPD
+        </button>
         <span>Nos vemos do lado de fora da tela. <b>♥</b></span>
       </footer>
+
+      {/* MODAL DE POLÍTICA DE PRIVACIDADE (LGPD) */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#FFF8FA] text-[#1D161C] max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-2xl p-6 md:p-8 shadow-2xl border-2 border-pink-900/20 relative">
+            <button
+              onClick={() => setShowPrivacyModal(false)}
+              className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-pink-100 transition"
+              aria-label="Fechar política"
+            >
+              <X size={22} />
+            </button>
+
+            <span className="cutout-badge mb-3 inline-block">LGPD & PRIVACIDADE</span>
+            <h3 className="text-2xl font-bold font-serif mb-4">Política de Privacidade — IT’S OFF.LINE</h3>
+            
+            <div className="text-xs md:text-sm text-gray-800 space-y-3 leading-relaxed">
+              <p>
+                A <strong>IT’S OFF.LINE</strong> preza pelo respeito à sua privacidade e pela proteção dos seus dados pessoais, em conformidade integral com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD)</strong>.
+              </p>
+
+              <h4 className="font-bold text-pink-900 text-sm mt-3">1. Quais dados coletamos?</h4>
+              <p>
+                Coletamos apenas os dados fornecidos voluntariamente por você em nosso formulário: <em>Nome</em>, <em>E-mail</em>, <em>Telefone/WhatsApp</em>, <em>Cidade</em> e <em>Interesses em nossas experiências</em>.
+              </p>
+
+              <h4 className="font-bold text-pink-900 text-sm mt-3">2. Para que finalidade usamos seus dados?</h4>
+              <p>
+                Seus dados são utilizados exclusivamente para:
+              </p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Enviar convites, datas da agenda e abertura de vagas para as experiências na sua região;</li>
+                <li>Responder a dúvidas ou solicitações enviadas por você;</li>
+                <li>Entrar em contato via WhatsApp ou e-mail sobre novos encontros e oficinas.</li>
+              </ul>
+
+              <h4 className="font-bold text-pink-900 text-sm mt-3">3. Compartilhamento e Segurança</h4>
+              <p>
+                Nós <strong>não vendemos, não alugamos e não compartilhamos</strong> seus dados pessoais com terceiros ou empresas de publicidade. Seus dados são armazenados em ambiente seguro com acesso restrito à curadoria da IT’S OFF.LINE.
+              </p>
+
+              <h4 className="font-bold text-pink-900 text-sm mt-3">4. Seus Direitos</h4>
+              <p>
+                Você tem o direito de solicitar a qualquer momento a confirmação, atualização ou exclusão definitiva dos seus dados da nossa lista de contatos. Para isso, basta nos enviar uma mensagem pelo WhatsApp oficial ou por e-mail.
+              </p>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-pink-200 flex justify-end">
+              <button
+                onClick={() => setShowPrivacyModal(false)}
+                className="px-6 py-2.5 bg-pink-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-pink-800 transition"
+              >
+                Entendido e Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
