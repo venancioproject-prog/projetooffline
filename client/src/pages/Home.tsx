@@ -467,7 +467,7 @@ export default function Home() {
               <div className="relative flex flex-col items-center justify-center">
                 <div className="washi-tape tape-top-right" />
                 <div className="polaroid-frame" style={{ transform: "rotate(-2.8deg)", maxWidth: "380px", width: "100%" }}>
-                  <img src="./assets/images/photo-11.jpeg" alt="Vivência IT’S OFF.LINE" style={{ width: "100%", height: "300px", objectFit: "cover" }} />
+                  <img src="./assets/images/photo-13.jpeg" alt="Vivência IT’S OFF.LINE" style={{ width: "100%", height: "300px", objectFit: "cover" }} />
                   <div className="polaroid-caption">o tempo passa diferente por aqui ✦</div>
                 </div>
                 <div className="sticker mt-3" style={{ transform: "rotate(2deg)" }}>
@@ -704,7 +704,7 @@ export default function Home() {
                 <div className="relative" style={{ marginTop: "-20px" }}>
                   <div className="washi-tape tape-top-right" />
                   <div className="polaroid-frame" style={{ transform: "rotate(3deg)" }}>
-                    <img src="./assets/images/photo-13.jpeg" alt="Casas, quintais e ateliês" style={{ width: "100%", height: "220px", objectFit: "cover" }} />
+                    <img src="./assets/images/photo-11.jpeg" alt="Casas, quintais e ateliês" style={{ width: "100%", height: "220px", objectFit: "cover" }} />
                     <div className="polaroid-caption">mesas preparadas com afeto ✦</div>
                   </div>
                 </div>
