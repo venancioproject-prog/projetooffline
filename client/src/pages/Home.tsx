@@ -562,16 +562,18 @@ export default function Home() {
                 <p className="body-copy">
                   Também criamos experiências em parceria com terreiros, aldeias indígenas, quilombos e espaços de salvaguarda de povos tradicionais.
                 </p>
-                <div className="p-4 my-3 bg-pink-950/40 rounded border border-pink-500/30 text-pink-100 text-xs italic">
+                <div className="p-4 my-4 bg-pink-900 text-white rounded-lg border-l-4 border-pink-500 text-sm font-medium leading-relaxed shadow-sm">
                   Quando entramos nesses territórios, é com convite, parceria e respeito a quem guarda esses lugares.
                 </div>
                 
                 <div className="space-y-3 mt-4">
-                  <div className="p-3 bg-white/10 rounded-lg text-sm text-pink-100">
-                    <strong>Natureza e céu aberto:</strong> Água, mata atlântica, vento e pôr do sol entram na experiência. ✦
+                  <div className="p-4 bg-white border border-pink-900/15 rounded-lg text-sm text-gray-900 shadow-sm">
+                    <strong className="text-pink-700 font-bold block mb-1">Natureza e céu aberto</strong>
+                    Água, mata atlântica, vento e pôr do sol entram na experiência. ✦
                   </div>
-                  <div className="p-3 bg-white/10 rounded-lg text-sm text-pink-100">
-                    <strong>Casas, quintais e ateliês:</strong> Mesas preparadas, conforto e tudo pronto para você chegar e viver. ✦
+                  <div className="p-4 bg-white border border-pink-900/15 rounded-lg text-sm text-gray-900 shadow-sm">
+                    <strong className="text-pink-700 font-bold block mb-1">Casas, quintais e ateliês</strong>
+                    Mesas preparadas, conforto e tudo pronto para você chegar e viver. ✦
                   </div>
                 </div>
               </div>
