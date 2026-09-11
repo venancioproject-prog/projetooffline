@@ -188,7 +188,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ nome: "", email: "", interesse: "" });
+  const [formData, setFormData] = useState({ nome: "", email: "", telefone: "", interesse: "" });
+  const [errors, setErrors] = useState<{ email?: string; telefone?: string }>({});
   const [openCategory, setOpenCategory] = useState<number | null>(0);
 
   const scrollTo = (id: string) => {
@@ -199,31 +200,78 @@ export default function Home() {
   const WHATSAPP_URL = "https://wa.me/5571985557259";
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOcz08PJoeql9YHX10qUp04QV9gNKmNHuw8KSGleP-m4HytnYdyVXnF8fSM7R7bqjl/exec";
 
+  // Formatação automática do telefone brasileiro (ex: (11) 98765-4321)
+  const formatPhone = (val: string) => {
+    const raw = val.replace(/\D/g, "").slice(0, 11);
+    if (raw.length <= 2) return raw;
+    if (raw.length <= 6) return `(${raw.slice(0, 2)}) ${raw.slice(2)}`;
+    if (raw.length <= 10) return `(${raw.slice(0, 2)}) ${raw.slice(2, 6)}-${raw.slice(6)}`;
+    return `(${raw.slice(0, 2)}) ${raw.slice(2, 7)}-${raw.slice(7, 11)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhone(e.target.value);
+    setFormData({ ...formData, telefone: formatted });
+    if (errors.telefone) setErrors({ ...errors, telefone: undefined });
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, email: e.target.value });
+    if (errors.email) setErrors({ ...errors, email: undefined });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validação estrita de e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    // Validação de telefone (deve conter pelo menos 10 dígitos: DDD + número)
+    const phoneDigits = formData.telefone.replace(/\D/g, "");
+
+    const newErrors: { email?: string; telefone?: string } = {};
+
+    if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Por favor, digite um e-mail válido (ex: seu@email.com).";
+    }
+
+    if (phoneDigits.length < 10) {
+      newErrors.telefone = "Digite um telefone válido com DDD (mínimo 10 dígitos).";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const dataToSend = {
-        nome: formData.nome,
-        email: formData.email,
-        interesse: formData.interesse,
-      };
+      // 1. Envio via URLSearchParams (GET ou POST direto)
+      const params = new URLSearchParams();
+      params.append("nome", formData.nome.trim());
+      params.append("email", formData.email.trim());
+      params.append("telefone", formData.telefone.trim());
+      params.append("interesse", formData.interesse.trim());
 
-      // O Google Apps Script com doPost aceita perfeitamente payload enviado em text/plain com mode: no-cors
+      // Faz envio via POST
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "text/plain;charset=utf-8",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(dataToSend),
+        body: params.toString(),
       });
 
+      // Também dispara beacon/GET de garantia para gravar caso o POST no-cors sofra drop em redirecionamento do Google
+      const imgFallback = new Image();
+      imgFallback.src = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+
       setSent(true);
-      setFormData({ nome: "", email: "", interesse: "" });
+      setFormData({ nome: "", email: "", telefone: "", interesse: "" });
+      setErrors({});
     } catch (err) {
-      console.error("Erro ao enviar para o Google Sheets:", err);
+      console.error("Erro ao enviar:", err);
       setSent(true);
     } finally {
       setLoading(false);
@@ -622,7 +670,7 @@ export default function Home() {
                     <span className="text-pink-200">Seu contato foi anotado com muito carinho e salvo na nossa lista.</span>
                   </div>
                 ) : (
-                  <form className="interest-form" onSubmit={handleSubmit}>
+                  <form className="interest-form" onSubmit={handleSubmit} noValidate>
                     <label>
                       Como quer ser chamado(a)?
                       <input
@@ -633,17 +681,44 @@ export default function Home() {
                         disabled={loading}
                       />
                     </label>
+
                     <label>
                       Seu melhor e-mail
                       <input
                         required
                         type="email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={handleEmailChange}
                         placeholder="nome@exemplo.com"
                         disabled={loading}
+                        className={errors.email ? "border-red-500 bg-red-50/50" : ""}
                       />
+                      {errors.email && (
+                        <span className="text-xs text-red-600 font-bold mt-1 block">
+                          ⚠️ {errors.email}
+                        </span>
+                      )}
                     </label>
+
+                    <label>
+                      Seu WhatsApp / Telefone com DDD
+                      <input
+                        required
+                        type="tel"
+                        value={formData.telefone}
+                        onChange={handlePhoneChange}
+                        placeholder="(DDD) 99999-9999"
+                        maxLength={15}
+                        disabled={loading}
+                        className={errors.telefone ? "border-red-500 bg-red-50/50" : ""}
+                      />
+                      {errors.telefone && (
+                        <span className="text-xs text-red-600 font-bold mt-1 block">
+                          ⚠️ {errors.telefone}
+                        </span>
+                      )}
+                    </label>
+
                     <label>
                       O que você gostaria de experimentar?
                       <textarea
@@ -654,6 +729,7 @@ export default function Home() {
                         disabled={loading}
                       />
                     </label>
+
                     <button type="submit" className="form-submit-scrap" disabled={loading}>
                       {loading ? "ENVIANDO..." : <>QUERO FICAR POR PERTO <ArrowUpRight size={17} /></>}
                     </button>
