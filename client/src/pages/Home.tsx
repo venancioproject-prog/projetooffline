@@ -138,7 +138,7 @@ const manifestoItems = [
 ];
 
 const galleryMural = [
-  { src: "./assets/images/photo-06.jpeg", caption: "Encontros com calma ✦", rotate: "-3.5deg", floatDelay: "0s", offset: "translateY(12px)" },
+  { src: "./assets/images/photo-12.jpeg", caption: "Encontros com calma ✦", rotate: "-3.5deg", floatDelay: "0s", offset: "translateY(12px)" },
   { src: "./assets/images/photo-07.jpeg", caption: "Processo criativo ✦", rotate: "2.8deg", floatDelay: "1.2s", offset: "translateY(-14px)" },
   { src: "./assets/images/photo-08.jpeg", caption: "Luz natural & pausa ✦", rotate: "-2.2deg", floatDelay: "2.4s", offset: "translateY(8px)" },
   { src: "./assets/images/photo-09.jpeg", caption: "Afetos compartilhados ✦", rotate: "3.5deg", floatDelay: "0.8s", offset: "translateY(-8px)" },
@@ -450,7 +450,7 @@ export default function Home() {
                 <div className="highlight-box my-4 p-4 border-l-4 border-pink-500 bg-white/60 rounded-r">
                   <p className="text-sm font-semibold mb-1 text-pink-900">Exclusividade:</p>
                   <p className="text-sm text-gray-800">
-                    Cada encontro é criado por mim e por gente que sabe muito bem o que está fazendo.
+                    Cada encontro é criado por mim, <strong>YéYè</strong>, e por gente que sabe muito bem o que está fazendo.
                   </p>
                 </div>
 
@@ -697,7 +697,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="washi-tape tape-top-left" />
                   <div className="polaroid-frame" style={{ transform: "rotate(-2.5deg)" }}>
-                    <img src="./assets/images/photo-12.jpeg" alt="Natureza e céu aberto" style={{ width: "100%", height: "240px", objectFit: "cover" }} />
+                    <img src="./assets/images/photo-06.jpeg" alt="Natureza e céu aberto" style={{ width: "100%", height: "240px", objectFit: "cover" }} />
                     <div className="polaroid-caption">natureza e céu aberto ✦</div>
                   </div>
                 </div>
