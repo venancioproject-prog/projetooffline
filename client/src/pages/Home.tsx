@@ -246,26 +246,50 @@ export default function Home() {
     setLoading(true);
 
     try {
-      // 1. Envio via URLSearchParams (GET ou POST direto)
-      const params = new URLSearchParams();
-      params.append("nome", formData.nome.trim());
-      params.append("email", formData.email.trim());
-      params.append("telefone", formData.telefone.trim());
-      params.append("interesse", formData.interesse.trim());
+      // Cria um formulário invisível apontando para um iframe oculto.
+      // Esta é a técnica mais confiável do mundo para Google Apps Script pois ignora 100% bloqueios de CORS e fetch restrictions do navegador.
+      const iframeName = "hidden_gscript_iframe";
+      let iframe = document.getElementById(iframeName) as HTMLIFrameElement;
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.id = iframeName;
+        iframe.name = iframeName;
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+      }
 
-      // Faz envio via POST
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      });
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = GOOGLE_SCRIPT_URL;
+      form.target = iframeName;
+      form.style.display = "none";
 
-      // Também dispara beacon/GET de garantia para gravar caso o POST no-cors sofra drop em redirecionamento do Google
-      const imgFallback = new Image();
-      imgFallback.src = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+      const fields: Record<string, string> = {
+        nome: formData.nome.trim(),
+        email: formData.email.trim(),
+        telefone: formData.telefone.trim(),
+        interesse: formData.interesse.trim(),
+      };
+
+      for (const key in fields) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+
+      // Aguarda 1 segundo e limpa o elemento
+      setTimeout(() => {
+        if (form.parentNode) form.parentNode.removeChild(form);
+      }, 1500);
+
+      // Dispara também o fallback fetch em segundo plano
+      const params = new URLSearchParams(fields);
+      fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`, { mode: "no-cors" }).catch(() => {});
 
       setSent(true);
       setFormData({ nome: "", email: "", telefone: "", interesse: "" });
