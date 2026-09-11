@@ -447,11 +447,25 @@ export default function Home() {
                   Nos preocupamos com a experiência concreta: lugares inusitados, com boa energia e conforto, temas originais e atividades sensoriais. Nosso lema é <strong>Saúde, Beleza e Fortuna Boa</strong>.
                 </p>
                 
-                <div className="highlight-box my-4 p-4 border-l-4 border-pink-500 bg-white/60 rounded-r">
-                  <p className="text-sm font-semibold mb-1 text-pink-900">Exclusividade:</p>
-                  <p className="text-sm text-gray-800">
-                    Cada encontro é criado por mim, <strong>YéYè</strong>, e por gente que sabe muito bem o que está fazendo.
-                  </p>
+                <div className="highlight-box my-6 p-4 sm:p-5 border-l-4 border-pink-500 bg-white/80 rounded-r-2xl shadow-sm relative overflow-visible flex flex-col sm:flex-row items-center sm:items-center gap-4 md:gap-5">
+                  <div className="relative shrink-0 flex items-center justify-center">
+                    <img 
+                      src="./assets/images/yeye.png" 
+                      alt="YéYè - Criadora do IT’S OFF.LINE" 
+                      className="w-24 sm:w-28 md:w-32 h-auto max-h-36 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute -bottom-1 sm:-bottom-2 bg-pink-600 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">
+                      YéYè ✦
+                    </div>
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <p className="text-xs font-bold uppercase tracking-wider mb-1 text-pink-900 flex items-center justify-center sm:justify-start gap-1.5">
+                      <Sparkles size={14} className="text-pink-600" /> Exclusividade
+                    </p>
+                    <p className="text-sm sm:text-base text-gray-800 leading-relaxed font-normal">
+                      Cada encontro é criado por mim, <strong className="text-pink-950 font-semibold">YéYè</strong>, e por gente que sabe muito bem o que está fazendo.
+                    </p>
+                  </div>
                 </div>
 
                 <p className="body-copy text-sm italic">
