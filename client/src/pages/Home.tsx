@@ -453,14 +453,16 @@ export default function Home() {
                       src="./assets/images/yeye.png" 
                       alt="YéYè - Criadora do IT’S OFF.LINE" 
                       className="w-24 sm:w-28 md:w-32 h-auto max-h-36 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
+                      loading="eager"
+                      decoding="async"
                     />
-                    <div className="absolute -bottom-1 sm:-bottom-2 bg-pink-600 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">
-                      YéYè ✦
+                    <div className="absolute -bottom-1 sm:-bottom-2 bg-pink-600 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm whitespace-nowrap">
+                      YÉYÈ ✦
                     </div>
                   </div>
                   <div className="flex-1 text-center sm:text-left">
                     <p className="text-xs font-bold uppercase tracking-wider mb-1 text-pink-900 flex items-center justify-center sm:justify-start gap-1.5">
-                      <Sparkles size={14} className="text-pink-600" /> Exclusividade
+                      <Sparkles size={14} className="text-pink-600" /> EXCLUSIVIDADE
                     </p>
                     <p className="text-sm sm:text-base text-gray-800 leading-relaxed font-normal">
                       Cada encontro é criado por mim, <strong className="text-pink-950 font-semibold">YéYè</strong>, e por gente que sabe muito bem o que está fazendo.

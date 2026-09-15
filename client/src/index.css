@@ -807,9 +807,19 @@ h1 em::after {
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 600px) {
   .manifesto-grid, .step-grid, .gallery-scrapbook-mural {
     grid-template-columns: 1fr;
+  }
+  .scatter-polaroid {
+    width: 100% !important;
+    min-width: unset !important;
+    max-width: 300px !important;
+    margin: 0 auto;
+  }
+  .gallery-scatter-table {
+    gap: 24px 16px;
+    padding: 10px 0;
   }
   .experience-scrap-card {
     grid-template-columns: 1fr;
